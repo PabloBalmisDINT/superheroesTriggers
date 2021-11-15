@@ -1,0 +1,178 @@
+﻿<Window x:Class="superheroes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:superheroes"
+        mc:Ignorable="d"
+        Title="SuperHeroes"
+        Height="550"
+        Width="800"
+        MinHeight="550"
+        MinWidth="800"
+        Icon="./assets/shield.ico">
+    <Window.Resources>
+        <!--Estilos-->
+        <!--Imagen-->
+        <Style TargetType="Image" x:Key="ImagenSuperheroesStyle">
+            <Setter Property="Opacity"
+                    Value="0.5">
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+                    <Setter Property="Opacity"
+                            Value="1">
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--Borde-->
+        <Style TargetType="Border" x:Key="BordeImagen">
+            <Setter Property="BorderBrush" 
+                    Value="Black"></Setter>
+            <Setter Property="BorderThickness"
+                    Value="0"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=SuperHeroesImage, Path=IsMouseOver}"
+                         Value="True">
+                    <Setter Property="BorderThickness"
+                            Value="3">
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--Texto nombre del superheroe-->
+        <Style TargetType="TextBlock" x:Key="TetxBlockNombre">
+            <Setter Property="FontSize"
+                    Value="40"></Setter>
+            <Setter Property="Foreground"
+                    Value="White"></Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="75" Duration="0:0:3"></DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="FontSize"
+                                             To="40"
+                                             Duration="0:0:2"></DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--Imagenes logos-->
+        <Style TargetType="Image" x:Key="VengadorStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=SuperheroeActual.Vengador}"
+                             Value="True">
+                    <Setter Property="Visibility"
+                            Value="Visible"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SuperheroeActual.Vengador}"
+                             Value="False">
+                    <Setter Property="Visibility"
+                            Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Image"
+               x:Key="XMenStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=SuperheroeActual.Xmen}"
+                             Value="True">
+                    <Setter Property="Visibility"
+                            Value="Visible"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SuperheroeActual.Xmen}"
+                             Value="False">
+                    <Setter Property="Visibility"
+                            Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <!--Estilo color de fondo-->
+        <Style TargetType="DockPanel" x:Key="DockPanelPrincipalStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=SuperheroeActual.Heroe}" Value="True">
+                    <Setter Property="Background" Value="PaleGreen"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=SuperheroeActual.Heroe}"
+                             Value="False">
+                    <Setter Property="Background"
+                            Value="IndianRed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel x:Name="DockPanelPrincipal"
+               Style="{StaticResource DockPanelPrincipalStyle}">
+        
+        <!--Parte de arriba con el nombre y los logos-->
+        <DockPanel DockPanel.Dock="Top"
+                   LastChildFill="False">
+            <TextBlock Style="{StaticResource TetxBlockNombre}"
+                       DockPanel.Dock="Left"
+                       Text="{Binding Path=SuperheroeActual.Nombre}">
+                <TextBlock.Effect>
+                    <DropShadowEffect />
+                </TextBlock.Effect></TextBlock>
+            <StackPanel Orientation="Horizontal"
+                        DockPanel.Dock="Right">
+                <Image Source="./assets/avengers.png"
+                       Width="50"
+                       Style="{StaticResource VengadorStyle}"></Image>
+                <Image Source="./assets/xmen.png"
+                       Width="50"
+                       Style="{StaticResource XMenStyle}"></Image>
+            </StackPanel>
+        </DockPanel>
+        <!--Parte de abajo con las flechas y el numero del superheroe-->
+        <StackPanel DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Image Source="./assets/arrow.png"
+                   Height="30"
+                   Width="30"
+                   MouseLeftButtonDown="Image_MouseLeftButtonDown_1"></Image>
+            <TextBlock x:Name="Numeroactual_TextBlock"
+                       FontSize="30"
+                       Text="{Binding Path=ContadorActual}"></TextBlock>
+            <TextBlock FontSize="30">/</TextBlock>
+            <TextBlock x:Name="NumeroTotal_TextBlock"
+                       FontSize="30"
+                       Text="{Binding Path=TotalHeroes}"></TextBlock>
+            <Image Source="./assets/arrow.png"
+                   Height="30"
+                   Width="30"
+                   RenderTransformOrigin="0.5,0.5"
+                   MouseLeftButtonDown="Image_MouseLeftButtonDown">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"
+                                        ScaleX="-1" />
+                        <SkewTransform AngleY="0"
+                                       AngleX="0" />
+                        <RotateTransform Angle="0" />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+        </StackPanel>
+        <!--Imagen del superheroe-->
+        <Border Style="{StaticResource BordeImagen}"
+                Margin="5">
+            <Image x:Name="SuperHeroesImage"
+                   Style="{StaticResource ImagenSuperheroesStyle}"
+                   Source="{Binding Path=SuperheroeActual.Imagen}"
+                   Stretch="UniformToFill"></Image>
+        </Border>
+    </DockPanel>
+</Window>
