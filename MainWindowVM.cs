@@ -52,7 +52,7 @@ namespace superheroes
         //Constructor
         public MainWindowVM()
         {
-            SuperheroeActual = lista.FirstOrDefault<Superheroe>();
+            SuperheroeActual = lista.FirstOrDefault();
             ContadorActual = 1;
             TotalHeroes = lista.Count;
         }

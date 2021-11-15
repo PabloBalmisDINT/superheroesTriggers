@@ -97,7 +97,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <!--Estilo color de fondo-->
+        <!--Trigger color de fondo-->
         <Style TargetType="DockPanel" x:Key="DockPanelPrincipalStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=SuperheroeActual.Heroe}" Value="True">
