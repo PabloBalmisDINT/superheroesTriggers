@@ -11,8 +11,8 @@ namespace superheroes
     class MainWindowVM : ObservableObject
     {
         //Campos con getters y setters
-        private ListaSuperheroesService servicioHeroes = new ListaSuperheroesService();
-        readonly private List<Superheroe> lista = servicioHeroes.GetSamples();
+        private readonly ListaSuperheroesService servicioHeroes;
+        private readonly List<Superheroe> lista;
         
         private Superheroe superheroeActual;
         public Superheroe SuperheroeActual 
@@ -51,6 +51,8 @@ namespace superheroes
         //Constructor
         public MainWindowVM()
         {
+            servicioHeroes = new ListaSuperheroesService();
+            lista = servicioHeroes.GetSamples();
             SuperheroeActual = lista.FirstOrDefault();
             ContadorActual = 1;
             TotalHeroes = lista.Count;
